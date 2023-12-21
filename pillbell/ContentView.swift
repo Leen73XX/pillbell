@@ -7,18 +7,27 @@
 
 import SwiftUI
 import SwiftData
+import EventKit
 
 struct ContentView: View {
+    
+
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.colorScheme) var colorScheme
     @Query private var items: [Item]
 
     var body: some View {
-        NavigationSplitView {
+        
+        NavigationStack {
+            ScrollView{
+                Calender(interval: DateInterval(start:.distantPast, end: .distantPast),eventStore: EKEventStore())
+            }
             List {
                 ForEach(items) { item in
                     NavigationLink {
                         Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
+                    }
+                label: {
                         Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
                     }
                 }
@@ -34,9 +43,11 @@ struct ContentView: View {
                     }
                 }
             }
-        } detail: {
-            Text("Select an item")
+            .navigationTitle("calender")
         }
+    
+   
+        
     }
 
     private func addItem() {
@@ -54,6 +65,7 @@ struct ContentView: View {
         }
     }
 }
+
 
 #Preview {
     ContentView()
