@@ -20,20 +20,41 @@ struct ContentView: View {
        
             
             //                .background(colorScheme == .dark ? Color.black : Color.black)
-           
-        NavigationStack {
             
-            ScrollView{
-                
-                Button(action: {
-                    showSettingsMenu.toggle()
-                }) {
-                    Label("Add Item", systemImage: "plus").padding(.trailing, 250.0)}
-                
-                
-                
-                .navigationTitle("calender")
-                .toolbar {
+            NavigationStack {
+                ScrollView{
+                    
+                    
+                    
+                    Button(action: {
+                        showSettingsMenu.toggle()
+                    }) {
+                        Label("select date", systemImage: "").padding(.trailing, 250.0)}
+                    
+                    
+                    
+                    .navigationTitle("my pills")
+                    
+                    VStack{
+                        if showSettingsMenu {
+                            Calender(interval: DateInterval(start:.distantPast, end: .distantPast),eventStore: EKEventStore())
+                        }
+                        List {
+                            ForEach(items) { item in
+                                NavigationLink {
+                                    Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
+                                }
+                            label: {
+                                Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+                            }
+                                
+                            }
+                            
+                            .onDelete(perform: deleteItems)
+                        }
+                        
+                    }
+                }.toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         EditButton()
                     }
@@ -44,39 +65,22 @@ struct ContentView: View {
                     }
                 }
                 
-                if showSettingsMenu {
-                    Calender(interval: DateInterval(start:.distantPast, end: .distantPast),eventStore: EKEventStore())
-                    
-                    List {
-                        ForEach(items) { item in
-                            NavigationLink {
-                                Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                            }
-                        label: {
-                            Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                        }
-                        }
-                        .onDelete(perform: deleteItems)
-                    }
-                    
-                }
                 
-                Text("hgfd")
-                           Text("lkjh")
+                
             }
-          
         }
-                    
             
         
-    }
+    
     private func cal(){
        
    }
         private func addItem() {
+            
             withAnimation {
                 let newItem = Item(timestamp: Date())
                 modelContext.insert(newItem)
+              
             }
         }
         
