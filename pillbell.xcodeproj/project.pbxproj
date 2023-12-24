@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1D44D6702B34CFEC00982DD3 /* pillbellApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44D66F2B34CFEC00982DD3 /* pillbellApp.swift */; };
 		1D44D6722B34CFEC00982DD3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44D6712B34CFEC00982DD3 /* ContentView.swift */; };
-		1D44D6742B34CFEC00982DD3 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44D6732B34CFEC00982DD3 /* Item.swift */; };
 		1D44D6762B34CFEC00982DD3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D44D6752B34CFEC00982DD3 /* Assets.xcassets */; };
 		1D44D6792B34CFEC00982DD3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D44D6782B34CFEC00982DD3 /* Preview Assets.xcassets */; };
 		1D44D6822B34D99100982DD3 /* calender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44D6812B34D99100982DD3 /* calender.swift */; };
@@ -20,7 +19,6 @@
 		1D44D66C2B34CFEC00982DD3 /* pillbell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pillbell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D44D66F2B34CFEC00982DD3 /* pillbellApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pillbellApp.swift; sourceTree = "<group>"; };
 		1D44D6712B34CFEC00982DD3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		1D44D6732B34CFEC00982DD3 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		1D44D6752B34CFEC00982DD3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1D44D6782B34CFEC00982DD3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1D44D6812B34D99100982DD3 /* calender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calender.swift; sourceTree = "<group>"; };
@@ -60,7 +58,6 @@
 			children = (
 				1D44D66F2B34CFEC00982DD3 /* pillbellApp.swift */,
 				1D44D6712B34CFEC00982DD3 /* ContentView.swift */,
-				1D44D6732B34CFEC00982DD3 /* Item.swift */,
 				1D44D6812B34D99100982DD3 /* calender.swift */,
 				1D44D6752B34CFEC00982DD3 /* Assets.xcassets */,
 				1D44D6772B34CFEC00982DD3 /* Preview Content */,
@@ -155,7 +152,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D44D6722B34CFEC00982DD3 /* ContentView.swift in Sources */,
-				1D44D6742B34CFEC00982DD3 /* Item.swift in Sources */,
 				1D44D6702B34CFEC00982DD3 /* pillbellApp.swift in Sources */,
 				1D44D68C2B34E66100982DD3 /* date.swift in Sources */,
 				1D44D6822B34D99100982DD3 /* calender.swift in Sources */,
