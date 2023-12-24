@@ -12,7 +12,8 @@ import EventKit
 
 // start ContentView ____________________________________
 struct ContentView: View {
-    
+
+
     
     @Environment(\.modelContext) private var modelContext
     @Environment(\.colorScheme) var colorScheme
@@ -44,9 +45,26 @@ struct ContentView: View {
                 
                 
                 .navigationTitle("my pills")
+                
+           
                 if showSettingsMenu {
                     Calender(interval: DateInterval(start:.distantPast, end: .distantPast),eventStore: EKEventStore())
                 }
+                
+                    HStack(
+                            alignment: .top,
+                            spacing: 10
+                        ) {
+                            ForEach(
+                                1...5,
+                                id: \.self
+                            ) {
+                                
+                                RoundedRectangle(cornerRadius: 15)
+                                    .frame(width: 50.0, height: 50.0)
+                                    Text("\($0)")
+                            }
+                        }
                 
                 NavigationSplitView {
                     
@@ -62,7 +80,7 @@ struct ContentView: View {
                             
                         }
                         
-                        .onDelete(perform: deleteItems)
+                        .onDelete{pills.remove(atOffsets: $0)}
                     }
                     .toolbar {
                         ToolbarItem(placement: .navigationBarLeading){ Text("to take")
@@ -84,7 +102,7 @@ struct ContentView: View {
                             Text("no pill added")
                                 .foregroundColor(.gray)
                                 .font(.headline)
-                            
+                                Spacer()
                         }
                         
                         
@@ -109,7 +127,7 @@ struct ContentView: View {
                 
             }
         } .sheet(isPresented: $Add) {
-            add( pills: $pills, title: "" , dismissAction: {
+            add( pills: $pills, title: "" ,numberOfpill: 0, dismissAction: {
                 isShowingAddPill = false
             })
         }
@@ -120,6 +138,7 @@ struct ContentView: View {
     struct Pill: Identifiable {
         var id = UUID()
         var title: String
+        var numberofpill: Int
         public func gettititle ()-> String{
             return title
             
@@ -138,6 +157,8 @@ struct ContentView: View {
         
         // start add _________________________________________
         struct add: View{
+            @State private var selectedNumber = 1
+               let numbers = Array(1...100)
             
             var dismissAction: () -> Void
             @Environment(\.presentationMode) var presentationMode
@@ -145,15 +166,17 @@ struct ContentView: View {
             
             @Binding var pills: [Pill]
             @State private var title = ""
+            @State private var numberOfpill = 0
             
-            init(pills: Binding<[Pill]>, title: String, dismissAction: @escaping () -> Void) {
+            init(pills: Binding<[Pill]>, title: String, numberOfpill: Int, dismissAction: @escaping () -> Void) {
                 self._pills = pills
                 self._title = State(initialValue: title)
+                self._numberOfpill = State(initialValue: numberOfpill)
                 self.dismissAction = dismissAction
             }
             var body: some View {
-                Text("hh")
-                TextField("إسم المشروع", text: $title)
+                Text("pill information")
+                TextField("pill name", text: $title)
                     .foregroundColor(.gray)
                     .padding()
                     .background(Color.white)
@@ -163,12 +186,25 @@ struct ContentView: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                     .padding(.horizontal, 20)
+                HStack {
+                    
+                            Text("Selected number: \(selectedNumber)")
+
+                            Picker("Select a number", selection: $selectedNumber) {
+                                ForEach(numbers, id: \.self) { number in
+                                    Text("\(number)")
+                                }
+                            }
+                            .pickerStyle(WheelPickerStyle())
+                        }
+                
                 Button(action: {
                     save = true
                     
                     presentationMode.wrappedValue.dismiss()
                     let newPill = Pill(
-                        title: title
+                        title: title,
+                        numberofpill: selectedNumber
                     )
                     
                     if let index = pills.firstIndex(where: { $0.title == newPill.title }) {
@@ -182,6 +218,8 @@ struct ContentView: View {
                 }}
         }
         // end add ________________________________________
+   
+    
         // start PillDetail_____________________________________
         struct PillDetail: View {
             var pill: Pill
@@ -217,10 +255,9 @@ struct ContentView: View {
             }
         }
     }
-
+   
     }
 // end ContentView _____________________________________
-
 
 #Preview {
     ContentView()
