@@ -153,7 +153,7 @@ struct ContentView: View {
                 
             }
         } .sheet(isPresented: $Add) {
-            add( pills: $pills, title: "" , dismissAction: {
+            add( pills: $pills, medicationName: "" , dismissAction: {
                 isShowingAddPill = false
             })
         }
@@ -163,10 +163,11 @@ struct ContentView: View {
     
     struct Pill: Identifiable {
         var id = UUID()
-        var title: String
+        var medicationName: String
+        var numberOfDoses: Int
     
         public func gettititle ()-> String{
-            return title
+            return medicationName
             
         }}
         // end Pill _____________________________________
@@ -185,9 +186,9 @@ struct ContentView: View {
                             }
                         }
                         VStack{
-                            Text(pil.title)
+                            Text(pil.medicationName)
                                 .font(.headline)
-                            Text("\(pil.title)")
+                            Text("\(pil.medicationName)")
                         }
                     }
                 }
@@ -199,34 +200,65 @@ struct ContentView: View {
         // start add _________________________________________
         struct add: View{
             
-              
+            // Declare variables for medication details
+                  
+                   @State private var numberOfDoses: Int = 1
+                   @State private var selectedFrequency: MedicationFrequency = .oncePerWeek
+                   @State private var selectedDate: Date = Date()
+                   @State private var selectedTime: Date = Date()
+                   @State private var remindersEnabled: Bool = false
+                
+                    @State private var showingNewMedicationSheet = false
+                
+                // Enum for medication frequency options
+                    enum MedicationFrequency: String, CaseIterable, Identifiable {
+                        case oncePerDay = "Once per day"
+                        case twicePerDay = "Twice per day"
+                        case oncePerWeek = "Once per week"
+                        case custom = "Ignore"
+
+                        var id: String { self.rawValue }
+                    }
+            
+            
             @Environment(\.managedObjectContext) private var viewContext
             var dismissAction: () -> Void
             @Environment(\.presentationMode) var presentationMode
             @State private var save = false
             
             @Binding var pills: [Pill]
-            @State private var title = ""
+            @State private var medicationName = ""
           
             
-            init(pills: Binding<[Pill]>, title: String, dismissAction: @escaping () -> Void) {
+            init(pills: Binding<[Pill]>, medicationName: String, dismissAction: @escaping () -> Void) {
                 self._pills = pills
-                self._title = State(initialValue: title)
+                self._medicationName = State(initialValue: medicationName)
                 
                 self.dismissAction = dismissAction
             }
             var body: some View {
-                Text("pill information")
-                TextField("pill name", text: $title)
-                    .foregroundColor(.gray)
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
-                    .padding(.horizontal, 20)
+                NavigationView {
+                    Form {
+                        // Medication name
+                        TextField("Name", text: $medicationName)
+                        Stepper("Number of doses: \(numberOfDoses)", value: $numberOfDoses, in: 1...20)
+                        // Frequency
+                        Picker("Frequency", selection: $selectedFrequency) {
+                            ForEach(MedicationFrequency.allCases) { frequency in
+                                Text(frequency.rawValue)
+                            }
+                        }
+                        // Date
+                        DatePicker("Date", selection: $selectedDate, displayedComponents: .date)
+                        
+                        // Time
+                        DatePicker("Time", selection: $selectedTime, displayedComponents: .hourAndMinute)
+                        
+                        // Reminders
+                        Toggle("Reminders", isOn: $remindersEnabled) .navigationTitle("New Medication")
+                            .navigationBarTitleDisplayMode(.inline)
+                    }}
+               
 //                HStack {
 //                    
 //                    Text("Selected number: \(selectedNumber)")
@@ -244,11 +276,11 @@ struct ContentView: View {
                     
                     presentationMode.wrappedValue.dismiss()
                     let newPill = Pill(
-                        title: title
-                       
+                        medicationName: medicationName,
+                       numberOfDoses: numberOfDoses
                     )
                     
-                    if let index = pills.firstIndex(where: { $0.title == newPill.title }) {
+                    if let index = pills.firstIndex(where: { $0.medicationName == newPill.medicationName }) {
                         pills[index] = newPill
                     } else {
                         pills.append(newPill)
@@ -273,7 +305,7 @@ struct ContentView: View {
                         VStack(alignment: .leading) {
                             
                             
-                            Text(pill.title)
+                            Text(pill.medicationName)
                                 .font(.title)
                                 .padding()
                             
