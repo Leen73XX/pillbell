@@ -13,18 +13,21 @@ import EventKit
 // start ContentView ____________________________________
 struct ContentView: View {
 
+    @State private var selectedDate = Date()
+    @State private var selectedMonth = "January"
+        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
     
     @Environment(\.modelContext) private var modelContext
     @Environment(\.colorScheme) var colorScheme
     @Query private var items: [Item]
-    @State private var showSettingsMenu = false
+    @State private var showMenu = false
     @State private var Add = false
     @Environment(\.presentationMode) var presentationMode
     @State private var save = false
     @State private var isShowingAddPill = false
     @State private var pills: [Pill] = []
-    
+       
     
     var body: some View {
         
@@ -38,26 +41,54 @@ struct ContentView: View {
                 
                 
                 Button(action: {
-                    showSettingsMenu.toggle()
+                    showMenu.toggle()
                 }) {
-                    Label("select date", systemImage: "").padding(.trailing, 250.0)}
+                    Label("\(selectedMonth)", systemImage: "").padding(.trailing, 300.0)}
                 
                 
                 
                 .navigationTitle("my pills")
                 
            
-                if showSettingsMenu {
-                    Calender(interval: DateInterval(start:.distantPast, end: .distantPast),eventStore: EKEventStore())
+                if showMenu {
+                    HStack{
+                        VStack {
+                            Picker("Select a month", selection: $selectedMonth) {
+                                ForEach(months, id: \.self) {
+                                    Text($0)
+                                }
+                            }
+                            .pickerStyle(WheelPickerStyle())
+                            
+                            
+                        }
+                        Spacer()
+                          
+                    }
                 }
-                
                 ScrollView(.horizontal) {
                          HStack(spacing: 20) {
-                             ForEach(1..<30) { number in
-                                 
-                                 RoundedRectangle(cornerRadius: 10)
-                                     .frame(width: 100, height: 100)
-                                     .foregroundColor(.blue)
+                             ForEach(1..<32) { number in
+                                 ZStack{
+                                     RoundedRectangle(cornerRadius: 10)
+                                         .frame(width: 100, height: 100)
+                                         .foregroundColor(.blue)
+                                     VStack{
+                                         Spacer()
+                                         Text("\(number)")
+                                             .font(.largeTitle)
+                                             .fontWeight(.bold)
+                                             .foregroundColor(Color.white)
+                                         Text("\(selectedMonth)")
+                                             .font(.body)
+                                             .fontWeight(.bold)
+                                             .foregroundColor(Color.white)
+                                            
+                                         
+                                         
+                                         Spacer()
+                                     }
+                                 }
                              }
                          }
                          .padding()
@@ -94,6 +125,7 @@ struct ContentView: View {
                     }
                     
                     VStack {
+                        
                         //Divider()
                         if pills.isEmpty {
                             Text("no pill added")
