@@ -12,8 +12,8 @@ import EventKit
 
 // start ContentView ____________________________________
 struct ContentView: View {
-    
     @State private var isChecked = false
+    
     
     @State private var selectedMonth = "January"
         let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -71,9 +71,15 @@ struct ContentView: View {
                          HStack(spacing: 20) {
                              ForEach(1..<32) { number in
                                  ZStack{
-                                     RoundedRectangle(cornerRadius: 10)
-                                         .frame(width: 100, height: 100)
-                                         .foregroundColor(.blue)
+                                     Button(action: {
+                                         
+                                         //
+                                                         }) {
+                                                             RoundedRectangle(cornerRadius: 15)
+                                                                 .fill(Color.blue)
+                                                                 .frame(width: 100, height: 100)
+                                                         }
+                                     
                                      VStack{
                                          Spacer()
                                          Text("\(number)")
@@ -98,7 +104,13 @@ struct ContentView: View {
                 NavigationSplitView {
                     
                     List{
-                        
+//                        if(!pills.isEmpty){
+//                            HStack{
+//                                Toggle(isOn: $isChecked) {
+//                                    Text("")
+//                                }
+//                                .toggleStyle(CheckboxToggleStyle())
+//                            }}
                         ForEach(pills) { pill in
                             
                             NavigationLink(destination: PillDetail(pill:  pill)) {
@@ -132,6 +144,7 @@ struct ContentView: View {
                                 .foregroundColor(.gray)
                                 .font(.headline)
                                 Spacer()
+                            
                         }
                         
                         
@@ -155,6 +168,7 @@ struct ContentView: View {
                 
                 
             }
+            
         } .sheet(isPresented: $Add) {
             add( pills: $pills, medicationName: "" , dismissAction: {
                 isShowingAddPill = false
@@ -177,16 +191,20 @@ struct ContentView: View {
         // start pillRow _____________________________________
         struct pillRow : View {
             var pil: Pill
-           
+            
+            @State private var isChecked = false
 
+@State private var num = 25
             var body: some View {
+               
+                   
                 VStack(spacing: 20){
                     HStack{
                         ZStack{
                             RoundedRectangle(cornerRadius: 15).frame(width: 50,height: 50)
                                 .foregroundColor(.blue)
                             VStack{
-                                Text("28")
+                                Text("\(num)")
                                     .fontWeight(.bold)
                                     .foregroundColor(Color.white)
                                 Text("dec")
@@ -299,7 +317,7 @@ struct ContentView: View {
                     }
                     dismissAction()
                 }) {
-                    Text("حفظ")
+                    Text("save")
                 }
             }
         }
