@@ -54,7 +54,7 @@ struct ContentView: View {
                     List {
                         ForEach(pills) { p in
                             NavigationLink {
-                                Text("Item at \(p.title)")
+                                Text(" \(p.title)")
                             }
                         label: {
                             Text(p.title)
