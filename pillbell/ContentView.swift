@@ -13,7 +13,7 @@ import EventKit
 // start ContentView ____________________________________
 struct ContentView: View {
     
-    
+    @State private var isChecked = false
     
     @State private var selectedMonth = "January"
         let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -103,7 +103,10 @@ struct ContentView: View {
                             
                             NavigationLink(destination: PillDetail(pill:  pill)) {
                                 pillRow(pil: pill)
+                                
+                                 
                             }
+                            
                         }
                             .onDelete{pills.remove(atOffsets: $0)}
                         }
@@ -165,16 +168,17 @@ struct ContentView: View {
         var id = UUID()
         var medicationName: String
         var numberOfDoses: Int
+        var selectedFrequency:String
+        var selectedDate:Date
     
-        public func gettititle ()-> String{
-            return medicationName
-            
-        }}
+      }
         // end Pill _____________________________________
         
         // start pillRow _____________________________________
         struct pillRow : View {
             var pil: Pill
+           
+
             var body: some View {
                 VStack(spacing: 20){
                     HStack{
@@ -182,14 +186,20 @@ struct ContentView: View {
                             RoundedRectangle(cornerRadius: 15).frame(width: 50,height: 50)
                                 .foregroundColor(.blue)
                             VStack{
-                               Text("")
+                                Text("28")
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color.white)
+                                Text("dec")
+                                    .foregroundColor(Color.white)
                             }
                         }
-                        VStack{
+                        VStack(alignment: .leading){
                             Text(pil.medicationName)
                                 .font(.headline)
-                            Text("\(pil.medicationName)")
+                            Text("number of doses: \(pil.numberOfDoses)")
+                            Text("\(pil.selectedFrequency)")
                         }
+                        
                     }
                 }
                
@@ -277,7 +287,9 @@ struct ContentView: View {
                     presentationMode.wrappedValue.dismiss()
                     let newPill = Pill(
                         medicationName: medicationName,
-                       numberOfDoses: numberOfDoses
+                       numberOfDoses: numberOfDoses,
+                        selectedFrequency: selectedFrequency.rawValue,
+                        selectedDate: selectedDate
                     )
                     
                     if let index = pills.firstIndex(where: { $0.medicationName == newPill.medicationName }) {
@@ -302,14 +314,29 @@ struct ContentView: View {
                 ScrollView {
                     HStack{
                         
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .center) {
                             
                             
+                            Text( "pill name: ")
+                                .font(.headline)
+                                .foregroundColor(Color.blue)
                             Text(pill.medicationName)
-                                .font(.title)
-                                .padding()
+                                .padding(.bottom, 20.0)
+                            Text("number Of Doses: ") .font(.headline)
+                                .foregroundColor(Color.blue)
+                            Text("\(pill.numberOfDoses)")
+                                .padding(.bottom, 20.0)
+                            Text("starting date:  ").font(.headline)
+                                .foregroundColor(Color.blue)
+                            Text("\(pill.selectedDate.formatted())")
+                                .padding(.bottom, 20.0)
+                            Text("frequency: ").font(.headline)
+                                .foregroundColor(Color.blue)
+                            Text(pill.selectedFrequency)
+                             
                             
-                        }}}}}
+                        }
+                        }}}}
         //end PillDetail_______________________________________
         //        private func addItem() {
         //
@@ -331,6 +358,18 @@ struct ContentView: View {
     }
    
     }
+struct CheckboxToggleStyle: ToggleStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack {
+            RoundedRectangle(cornerRadius: 5.0)
+                .stroke(lineWidth: 2)
+                .frame(width: 25, height: 25)
+            configuration.label
+                .font(.system(size: 15))
+        }
+        .padding()
+    }
+}
 // end ContentView _____________________________________
 
 #Preview {
