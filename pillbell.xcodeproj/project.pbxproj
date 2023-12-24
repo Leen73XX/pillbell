@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D11311C2B37C3340081D1E9 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D11311B2B37C3340081D1E9 /* Item.swift */; };
 		1D44D6702B34CFEC00982DD3 /* pillbellApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44D66F2B34CFEC00982DD3 /* pillbellApp.swift */; };
 		1D44D6722B34CFEC00982DD3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44D6712B34CFEC00982DD3 /* ContentView.swift */; };
 		1D44D6762B34CFEC00982DD3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D44D6752B34CFEC00982DD3 /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1D11311B2B37C3340081D1E9 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Item.swift; path = ../../hh/hh/Item.swift; sourceTree = "<group>"; };
 		1D44D66C2B34CFEC00982DD3 /* pillbell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pillbell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D44D66F2B34CFEC00982DD3 /* pillbellApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pillbellApp.swift; sourceTree = "<group>"; };
 		1D44D6712B34CFEC00982DD3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 			children = (
 				1D44D66F2B34CFEC00982DD3 /* pillbellApp.swift */,
 				1D44D6712B34CFEC00982DD3 /* ContentView.swift */,
+				1D11311B2B37C3340081D1E9 /* Item.swift */,
 				1D44D6812B34D99100982DD3 /* calender.swift */,
 				1D44D6752B34CFEC00982DD3 /* Assets.xcassets */,
 				1D44D6772B34CFEC00982DD3 /* Preview Content */,
@@ -151,6 +154,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D11311C2B37C3340081D1E9 /* Item.swift in Sources */,
 				1D44D6722B34CFEC00982DD3 /* ContentView.swift in Sources */,
 				1D44D6702B34CFEC00982DD3 /* pillbellApp.swift in Sources */,
 				1D44D68C2B34E66100982DD3 /* date.swift in Sources */,

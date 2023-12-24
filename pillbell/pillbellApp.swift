@@ -12,7 +12,7 @@ import SwiftData
 struct pillbellApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            ContentView.Pill.self,
+            Item.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
