@@ -12,7 +12,8 @@ import EventKit
 
 // start ContentView ____________________________________
 struct ContentView: View {
-
+    
+    
     @State private var selectedDate = Date()
     @State private var selectedMonth = "January"
         let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -156,7 +157,7 @@ struct ContentView: View {
                 
             }
         } .sheet(isPresented: $Add) {
-            add( pills: $pills, title: "" ,numberOfpill: 0, dismissAction: {
+            add( pills: $pills, title: "" , dismissAction: {
                 isShowingAddPill = false
             })
         }
@@ -167,7 +168,7 @@ struct ContentView: View {
     struct Pill: Identifiable {
         var id = UUID()
         var title: String
-        var numberofpill: Int
+    
         public func gettititle ()-> String{
             return title
             
@@ -186,21 +187,21 @@ struct ContentView: View {
         
         // start add _________________________________________
         struct add: View{
-            @State private var selectedNumber = 1
-               let numbers = Array(1...100)
             
+              
+            @Environment(\.managedObjectContext) private var viewContext
             var dismissAction: () -> Void
             @Environment(\.presentationMode) var presentationMode
             @State private var save = false
             
             @Binding var pills: [Pill]
             @State private var title = ""
-            @State private var numberOfpill = 0
+          
             
-            init(pills: Binding<[Pill]>, title: String, numberOfpill: Int, dismissAction: @escaping () -> Void) {
+            init(pills: Binding<[Pill]>, title: String, dismissAction: @escaping () -> Void) {
                 self._pills = pills
                 self._title = State(initialValue: title)
-                self._numberOfpill = State(initialValue: numberOfpill)
+                
                 self.dismissAction = dismissAction
             }
             var body: some View {
@@ -215,25 +216,25 @@ struct ContentView: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                     .padding(.horizontal, 20)
-                HStack {
-                    
-                            Text("Selected number: \(selectedNumber)")
-
-                            Picker("Select a number", selection: $selectedNumber) {
-                                ForEach(numbers, id: \.self) { number in
-                                    Text("\(number)")
-                                }
-                            }
-                            .pickerStyle(WheelPickerStyle())
-                        }
+//                HStack {
+//                    
+//                    Text("Selected number: \(selectedNumber)")
+//                    
+//                    Picker("Select a number", selection: $selectedNumber) {
+//                        ForEach(numbers, id: \.self) { number in
+//                            Text("\(number)")
+//                        }
+//                    }
+//                    .pickerStyle(WheelPickerStyle())
+//                }
                 
                 Button(action: {
                     save = true
                     
                     presentationMode.wrappedValue.dismiss()
                     let newPill = Pill(
-                        title: title,
-                        numberofpill: selectedNumber
+                        title: title
+                       
                     )
                     
                     if let index = pills.firstIndex(where: { $0.title == newPill.title }) {
@@ -244,7 +245,8 @@ struct ContentView: View {
                     dismissAction()
                 }) {
                     Text("حفظ")
-                }}
+                }
+            }
         }
         // end add ________________________________________
    
