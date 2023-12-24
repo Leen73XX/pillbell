@@ -14,7 +14,7 @@ import EventKit
 struct ContentView: View {
     
     
-    @State private var selectedDate = Date()
+    
     @State private var selectedMonth = "January"
         let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
@@ -97,20 +97,16 @@ struct ContentView: View {
                 
                 NavigationSplitView {
                     
-                    
-                    List {
-                        ForEach(pills) { p in
-                            NavigationLink {
-                                Text(" \(p.title)")
-                            }
-                        label: {
-                            Text(p.title)
-                        }
-                            
-                        }
+                    List{
                         
-                        .onDelete{pills.remove(atOffsets: $0)}
-                    }
+                        ForEach(pills) { pill in
+                            
+                            NavigationLink(destination: PillDetail(pill:  pill)) {
+                                pillRow(pil: pill)
+                            }
+                        }
+                            .onDelete{pills.remove(atOffsets: $0)}
+                        }
                     .toolbar {
                         ToolbarItem(placement: .navigationBarLeading){ Text("to take")
                             .font(.title)}
@@ -179,8 +175,23 @@ struct ContentView: View {
         struct pillRow : View {
             var pil: Pill
             var body: some View {
-                Text(pil.title)
-                    .font(.headline)
+                VStack(spacing: 20){
+                    HStack{
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 15).frame(width: 50,height: 50)
+                                .foregroundColor(.blue)
+                            VStack{
+                               Text("")
+                            }
+                        }
+                        VStack{
+                            Text(pil.title)
+                                .font(.headline)
+                            Text("\(pil.title)")
+                        }
+                    }
+                }
+               
             }
         }
         // ena pillRow __________________________________
