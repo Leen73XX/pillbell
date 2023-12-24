@@ -51,20 +51,17 @@ struct ContentView: View {
                     Calender(interval: DateInterval(start:.distantPast, end: .distantPast),eventStore: EKEventStore())
                 }
                 
-                    HStack(
-                            alignment: .top,
-                            spacing: 10
-                        ) {
-                            ForEach(
-                                1...5,
-                                id: \.self
-                            ) {
-                                
-                                RoundedRectangle(cornerRadius: 15)
-                                    .frame(width: 50.0, height: 50.0)
-                                    Text("\($0)")
-                            }
-                        }
+                ScrollView(.horizontal) {
+                         HStack(spacing: 20) {
+                             ForEach(1..<30) { number in
+                                 
+                                 RoundedRectangle(cornerRadius: 10)
+                                     .frame(width: 100, height: 100)
+                                     .foregroundColor(.blue)
+                             }
+                         }
+                         .padding()
+                     }
                 
                 NavigationSplitView {
                     
