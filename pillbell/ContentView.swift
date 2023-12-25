@@ -28,7 +28,8 @@ struct ContentView: View {
     @State private var save = false
     @State private var isShowingAddPill = false
     @State private var pills: [Pill] = []
-       
+    
+    @State private var isChecked = false
     
     var body: some View {
         
@@ -44,11 +45,14 @@ struct ContentView: View {
                 Button(action: {
                     showMenu.toggle()
                 }) {
-                    Label("\(selectedMonth)", systemImage: "").padding(.trailing, 300.0)}
+                    Label("selected Month", systemImage: "").accessibilityLabel("selected Month").accessibilityHint("select month from the list")
+                    Spacer()
+}
                 
                 
                 
-                .navigationTitle("my pills")
+                .navigationTitle(selectedMonth).accessibilityLabel("\(selectedMonth)")
+               
                 
            
                 if showMenu {
@@ -61,6 +65,7 @@ struct ContentView: View {
                                 }
                             }
                             .pickerStyle(WheelPickerStyle())
+                            .accessibilityAddTraits([.isHeader])
                             
                             
                         }
@@ -83,11 +88,11 @@ struct ContentView: View {
                                      
                                      VStack{
                                          Spacer()
-                                         Text("\(number)")
+                                         Text("\(number)").accessibilityAddTraits([.isHeader])
                                              .font(.largeTitle)
                                              .fontWeight(.bold)
                                              .foregroundColor(Color.white)
-                                         Text("\(selectedMonth)")
+                                         Text("\(selectedMonth)").accessibilityAddTraits([.isHeader])
                                              .font(.body)
                                              .fontWeight(.bold)
                                              .foregroundColor(Color.white)
@@ -114,25 +119,60 @@ struct ContentView: View {
 //                            }}
                         ForEach(pills) { pill in
                             
-                            NavigationLink(destination: PillDetail(pill:  pill)) {
-                                pillRow(pil: pill)
+                            HStack{
                                 
-                                 
+                                HStack{
+                                    
+                                    ZStack{
+                                        RoundedRectangle(cornerRadius: 15).frame(width: 50,height: 50)
+                                            .foregroundColor(.our)
+                                        VStack{
+                                            Text("25")
+                                                .fontWeight(.bold)
+                                                .foregroundColor(Color.white)
+                                            Text("dec")
+                                                .foregroundColor(Color.white)
+                                        }
+                                    }
+                                    VStack(alignment: .leading){
+                                        Text("\(pill.medicationName)").accessibilityAddTraits([.isHeader])
+                                            .font(.headline)
+                                        Text("number of doses: \(pill.numberOfDoses)").accessibilityAddTraits([.isHeader])
+                                        
+                                        
+                                        Text("\(pill.selectedFrequency)").accessibilityAddTraits([.isHeader])
+                                    }
+                                   
+                                }
+                                
+//                                Button(action: {
+//                                    pill.isChecked.toggle()
+//                                }){
+//                                    Image(systemName:pill.isChecked ? "checkmark.square.fill": "square")
+//                                }
                             }
+                            //                                Toggle("", isOn: $isChecked)
+
+//                            NavigationLink(destination: PillDetail(pill:  pill)) {
+//                                pillRow(pil: pill)
+//                                 
+//                            }
                             
                         }
                             .onDelete{pills.remove(atOffsets: $0)}
                         }
                     .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading){ Text("today")
+                        ToolbarItem(placement: .navigationBarLeading){ Text("today pills").accessibilityAddTraits([.isHeader])
                             .font(.largeTitle)}
                         ToolbarItem(placement: .navigationBarTrailing) {
-                            EditButton()
+                            EditButton().accessibilityLabel("delete Pill").accessibilityHint("Tap to allow deleting pill from the list")
+
                         }
                         ToolbarItem {
                             Button(action: {Add.toggle()
                                 isShowingAddPill = true}) {
-                                    Label("Add pill", systemImage: "plus")
+                                    Label("Add pill", systemImage: "plus").accessibilityLabel("Add Pill").accessibilityHint("Tap to add a new pill to the list")
+
                                 }
                         }
                     }
@@ -141,7 +181,7 @@ struct ContentView: View {
                         
                         //Divider()
                         if pills.isEmpty {
-                            Text("no pill added")
+                            Text("no pill for today").accessibilityAddTraits([.isHeader])
                                 .foregroundColor(.gray)
                                 .font(.headline)
                                 Spacer()
@@ -162,7 +202,7 @@ struct ContentView: View {
                     
                 }
             detail: {
-                Text("Select an item")
+                Text("Select pill")
                 
                 
             }
@@ -185,6 +225,7 @@ struct ContentView: View {
         var numberOfDoses: Int
         var selectedFrequency:String
         var selectedDate:Date
+        var isChecked : Bool = false
     
       }
         // end Pill _____________________________________
@@ -216,7 +257,9 @@ struct ContentView: View {
                             Text(pil.medicationName)
                                 .font(.headline)
                             Text("number of doses: \(pil.numberOfDoses)")
-                            Text("\(pil.selectedFrequency)")
+                                
+                               
+                            Text("\(pil.selectedFrequency)").accessibilityAddTraits([.isHeader])
                         }
                         
                     }
