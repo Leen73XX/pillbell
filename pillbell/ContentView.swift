@@ -144,7 +144,10 @@ struct ContentView: View {
                                     }
                                    
                                 }
-                                
+                                Toggle("", isOn: $isChecked)
+                                if(isChecked == true){
+                                    
+                                }
 //                                Button(action: {
 //                                    pill.isChecked.toggle()
 //                                }){
