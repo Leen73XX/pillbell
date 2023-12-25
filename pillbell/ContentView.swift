@@ -119,7 +119,7 @@ struct ContentView: View {
 //                            }}
                         ForEach(pills) { pill in
                             
-                            HStack{
+                           
                                 
                                 HStack{
                                     
@@ -142,9 +142,9 @@ struct ContentView: View {
                                         
                                         Text("\(pill.selectedFrequency)").accessibilityAddTraits([.isHeader])
                                     }
-                                   
+                                    Toggle("", isOn: $isChecked)
+                                  
                                 }
-                                Toggle("", isOn: $isChecked)
                                 if(isChecked == true){
                                     
                                 }
@@ -153,7 +153,7 @@ struct ContentView: View {
 //                                }){
 //                                    Image(systemName:pill.isChecked ? "checkmark.square.fill": "square")
 //                                }
-                            }
+                            
                             //                                Toggle("", isOn: $isChecked)
 
 //                            NavigationLink(destination: PillDetail(pill:  pill)) {
