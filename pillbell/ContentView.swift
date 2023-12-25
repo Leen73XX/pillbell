@@ -145,9 +145,7 @@ struct ContentView: View {
                                     Toggle("", isOn: $isChecked)
                                   
                                 }
-                                if(isChecked == true){
-                                    
-                                }
+                                
 //                                Button(action: {
 //                                    pill.isChecked.toggle()
 //                                }){
@@ -285,6 +283,8 @@ struct ContentView: View {
                    @State private var remindersEnabled: Bool = false
                 
                     @State private var showingNewMedicationSheet = false
+            
+           
                 
                 // Enum for medication frequency options
                     enum MedicationFrequency: String, CaseIterable, Identifiable {
