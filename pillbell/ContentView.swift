@@ -317,7 +317,7 @@ struct ContentView: View {
                     Form {
                         // Medication name
                         TextField("Name", text: $medicationName)
-                        Stepper("Number of doses: \(numberOfDoses)", value: $numberOfDoses, in: 1...20)
+                        Stepper("Number of doses : \(numberOfDoses)", value: $numberOfDoses, in: 1...20)
                         // Frequency
                         Picker("Frequency", selection: $selectedFrequency) {
                             ForEach(MedicationFrequency.allCases) { frequency in
