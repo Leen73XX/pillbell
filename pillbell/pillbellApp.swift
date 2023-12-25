@@ -25,7 +25,7 @@ struct pillbellApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            splashView()
         }
         .modelContainer(sharedModelContainer)
     }

@@ -12,7 +12,7 @@ import EventKit
 
 // start ContentView ____________________________________
 struct ContentView: View {
-    @State private var isChecked = false
+//    @State private var isChecked = false
     
     
     @State private var selectedMonth = "January"
@@ -57,6 +57,7 @@ struct ContentView: View {
                             Picker("Select a month", selection: $selectedMonth) {
                                 ForEach(months, id: \.self) {
                                     Text($0)
+                                       
                                 }
                             }
                             .pickerStyle(WheelPickerStyle())
@@ -76,7 +77,7 @@ struct ContentView: View {
                                          //
                                                          }) {
                                                              RoundedRectangle(cornerRadius: 15)
-                                                                 .fill(Color.blue)
+                                                                 .fill(Color.our)
                                                                  .frame(width: 100, height: 100)
                                                          }
                                      
@@ -123,8 +124,8 @@ struct ContentView: View {
                             .onDelete{pills.remove(atOffsets: $0)}
                         }
                     .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading){ Text("to take")
-                            .font(.title)}
+                        ToolbarItem(placement: .navigationBarLeading){ Text("today")
+                            .font(.largeTitle)}
                         ToolbarItem(placement: .navigationBarTrailing) {
                             EditButton()
                         }
@@ -202,7 +203,7 @@ struct ContentView: View {
                     HStack{
                         ZStack{
                             RoundedRectangle(cornerRadius: 15).frame(width: 50,height: 50)
-                                .foregroundColor(.blue)
+                                .foregroundColor(.our)
                             VStack{
                                 Text("\(num)")
                                     .fontWeight(.bold)
@@ -229,7 +230,8 @@ struct ContentView: View {
         struct add: View{
             
             // Declare variables for medication details
-                  
+          
+
                    @State private var numberOfDoses: Int = 1
                    @State private var selectedFrequency: MedicationFrequency = .oncePerWeek
                    @State private var selectedDate: Date = Date()
@@ -298,7 +300,7 @@ struct ContentView: View {
 //                    }
 //                    .pickerStyle(WheelPickerStyle())
 //                }
-                
+               
                 Button(action: {
                     save = true
                     
@@ -326,7 +328,9 @@ struct ContentView: View {
     
         // start PillDetail_____________________________________
         struct PillDetail: View {
+            
             var pill: Pill
+            @State private var isChecked = false
             @State private var pills: [Pill] = []
             var body: some View {
                 ScrollView {
@@ -337,21 +341,26 @@ struct ContentView: View {
                             
                             Text( "pill name: ")
                                 .font(.headline)
-                                .foregroundColor(Color.blue)
+                                .foregroundColor(Color.our)
                             Text(pill.medicationName)
                                 .padding(.bottom, 20.0)
                             Text("number Of Doses: ") .font(.headline)
-                                .foregroundColor(Color.blue)
+                                .foregroundColor(Color.our)
                             Text("\(pill.numberOfDoses)")
                                 .padding(.bottom, 20.0)
                             Text("starting date:  ").font(.headline)
-                                .foregroundColor(Color.blue)
+                                .foregroundColor(Color.our)
                             Text("\(pill.selectedDate.formatted())")
                                 .padding(.bottom, 20.0)
                             Text("frequency: ").font(.headline)
-                                .foregroundColor(Color.blue)
+                                .foregroundColor(Color.our)
                             Text(pill.selectedFrequency)
-                             
+                            HStack{
+                                Toggle(isOn: $isChecked) {
+                                    Text("")
+                                }
+                                .toggleStyle(CheckboxToggleStyle())
+                            }
                             
                         }
                         }}}}
