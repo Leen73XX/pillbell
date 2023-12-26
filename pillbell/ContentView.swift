@@ -35,7 +35,6 @@ struct ContentView: View {
         
         
         //                .background(colorScheme == .dark ? Color.black : Color.black)
-        
         NavigationView {
             
             ScrollView{
@@ -142,7 +141,8 @@ struct ContentView: View {
                                         
                                         Text("\(pill.selectedFrequency)").accessibilityAddTraits([.isHeader])
                                     }
-                                    Toggle("", isOn: $isChecked)
+                                
+                                    Toggle("", isOn: $isChecked).accessibilityAddTraits([.isHeader]).toggleStyle(CheckboxToggleStyle()).accessibilityLabel("check")
                                   
                                 }
                                 
@@ -156,7 +156,7 @@ struct ContentView: View {
 
 //                            NavigationLink(destination: PillDetail(pill:  pill)) {
 //                                pillRow(pil: pill)
-//                                 
+//
 //                            }
                             
                         }
@@ -164,19 +164,19 @@ struct ContentView: View {
                         }
                     .toolbar {
                         ToolbarItem(placement: .navigationBarLeading){ Text("today pills").accessibilityAddTraits([.isHeader])
-                            .font(.largeTitle)}
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            EditButton().accessibilityLabel("delete Pill").accessibilityHint("Tap to allow deleting pill from the list")
-
-                        }
-                        ToolbarItem {
-                            Button(action: {Add.toggle()
-                                isShowingAddPill = true}) {
-                                    Label("Add pill", systemImage: "plus").accessibilityLabel("Add Pill").accessibilityHint("Tap to add a new pill to the list")
-
-                                }
-                        }
-                    }
+                            .font(.largeTitle)}}
+//                        ToolbarItem(placement: .navigationBarTrailing) {
+//                            EditButton().accessibilityLabel("delete Pill").accessibilityHint("Tap to allow deleting pill from the list")
+//
+//                        }
+//                        ToolbarItem {
+//                            Button(action: {Add.toggle()
+//                                isShowingAddPill = true}) {
+//                                    Label("Add pill", systemImage: "plus").accessibilityLabel("Add Pill").accessibilityHint("Tap to add a new pill to the list")
+//
+//                                }
+//                        }
+//                    }
                     
                     VStack {
                         
@@ -210,8 +210,16 @@ struct ContentView: View {
                 
                 
             }
-            
-        } .sheet(isPresented: $Add) {
+            .navigationBarItems(trailing:
+                                    Button(action: {Add.toggle()
+                                                                  isShowingAddPill = true}) {
+                                                                      Label("Add pill", systemImage: "plus").accessibilityLabel("Add Pill").accessibilityHint("Tap to add a new pill to the list")
+                                  
+                                                                  }
+            )
+
+        }
+        .sheet(isPresented: $Add) {
             add( pills: $pills, medicationName: "" , dismissAction: {
                 isShowingAddPill = false
             })
@@ -237,7 +245,7 @@ struct ContentView: View {
             
             @State private var isChecked = false
 
-@State private var num = 25
+@State private var num = 26
             var body: some View {
                
                    
@@ -431,21 +439,34 @@ struct ContentView: View {
     }
    
     }
-struct CheckboxToggleStyle: ToggleStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        HStack {
-            RoundedRectangle(cornerRadius: 5.0)
-                .stroke(lineWidth: 2)
-                .frame(width: 25, height: 25)
-            configuration.label
-                .font(.system(size: 15))
-        }
-        .padding()
-    }
-}
+//struct CheckboxToggleStyle: ToggleStyle {
+//    func makeBody(configuration: Configuration) -> some View {
+//        HStack {
+//            RoundedRectangle(cornerRadius: 5.0)
+//                .stroke(lineWidth: 2)
+//                .frame(width: 25, height: 25)
+//            configuration.label
+//                .font(.system(size: 15))
+//        }
+//        .padding()
+//    }
+//}
 // end ContentView _____________________________________
 
 #Preview {
     ContentView()
        
+}
+
+struct CheckboxToggleStyle: ToggleStyle {
+  func makeBody(configuration: Self.Configuration) -> some View {
+    HStack {
+      configuration.label
+      Spacer()
+      Image(systemName: configuration.isOn ? "checkmark.square" : "square")
+        .resizable()
+        .frame(width: 24, height: 24)
+        .onTapGesture { configuration.isOn.toggle() }
+    }
+  }
 }
